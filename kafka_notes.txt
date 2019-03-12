@@ -1,0 +1,33 @@
+kafka notes
+
+su - kafka
+cd bin/
+
+systemctl start zookeeper
+systemctl enable zookeeper
+ 
+systemctl start kafka
+systemctl enable kafka
+
+
+# make a new topic
+./kafka-topics.sh --create --zookeeper localhost:2181 \
+--replication-factor 1 --partitions 1 \
+--topic raw_stats
+
+#create producer readable from console
+./kafka-console-producer.sh --broker-list localhost:9092 \
+--topic edtesting
+
+#create consumer readable from console
+./kafka-console-consumer.sh --bootstrap-server localhost:9092 \
+--topic raw_stats --from-beginning
+
+#list topics
+./kafka-topics.sh --list --zookeeper localhost:2181
+
+#see if it's running
+netstat -plntu
+
+#delete a topic
+./kafka-topics.sh --zookeeper localhost:2181 --delete --topic raw_stats
